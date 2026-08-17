@@ -1,22 +1,36 @@
-# OmniAntigravityLite
+# Antigravity Mobile Remote
 
-A premium mobile-first remote interface for Antigravity AI coding sessions. OmniAntigravityLite allows you to securely connect your phone to an active desktop Antigravity session via CDP (Chrome DevTools Protocol), giving you full control over the conversation, prompting, and project context from your mobile device.
+You don't always want to stay at your desk while an Antigravity coding session is running. 
 
-## Features
+Antigravity Mobile Remote provides a lightweight mobile interface for monitoring and interacting with the active Antigravity session. It allows you to securely connect your phone to an active desktop Antigravity session via CDP (Chrome DevTools Protocol), giving you full control over the conversation, prompting, and project context from your mobile device.
 
-- **Mobile Chat Interface:** Full responsive chat tailored for mobile screens.
-- **Live Conversation Mirroring:** Syncs in real-time with your active desktop session.
-- **Documents & Project Files Viewer:** Browse and read recently modified workspace files.
-- **Copy Controls:** Easily copy model outputs.
-- **Prompt Formatting:** Clean expand/collapse views for long reasoning and multi-turn conversations.
-- **Scroll Controls:** Fast jump-to-top and jump-to-bottom buttons optimized for mobile scrolling.
-- **Running Status Indicator:** Unobtrusive visual indicator when the model is generating.
+## Major Contributions
 
-## Upstream Attribution
+This repository contains substantial modifications and extensions over the original project, including:
+- Mobile-first chat experience
+- Conversation mirroring and reconstruction
+- Prompt expand/collapse
+- Copy controls
+- Documents / Current Conversation
+- Project-file discovery and secure access
+- Document downloads
+- Scroll-to-Top / Scroll-to-Bottom
+- Quota/limits integration
+- Model-running status indicator
+- CDP integration
+- Authentication and security improvements
+- Mobile/weak-network optimization
+- Reliability and testing improvements
 
-This project is a heavily modified fork of the excellent **OmniAntigravityRemoteChat** created by Diego Souza. 
+## Upstream Attribution & Copyright
+
+**Maintained and developed by:** Kiruthik R S
+
+This project is a substantially modified and extended fork based on the excellent GPL-3.0 project **OmniAntigravityRemoteChat** created by Diego Souza. 
 - Original Project: [https://github.com/diegosouzapw/OmniAntigravityRemoteChat](https://github.com/diegosouzapw/OmniAntigravityRemoteChat)
 - Original Author: Diego Souza <diegosouzapw@gmail.com>
+
+The original upstream portions remain under the copyright of their respective authors.
 
 ## Installation & Startup
 
@@ -33,6 +47,14 @@ This project is a heavily modified fork of the excellent **OmniAntigravityRemote
    ```
 5. **Connect from your Phone:**
    Navigate to `http://<YOUR-PC-IP>:4747` in your mobile browser. You will be prompted for the `APP_PASSWORD`.
+
+## Contributing
+
+- Bug reports are welcome
+- Feature requests are welcome
+- Pull requests are welcome
+- Contributors should test changes
+- Focused commits are preferred
 
 ## Security
 

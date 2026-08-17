@@ -51,7 +51,7 @@ function printWarn(name, message) {
 }
 
 async function run() {
-    console.log(`\n${c.cyan}=== OmniAntigravityLite Health Check ===${c.reset}\n`);
+    console.log(`\n${c.cyan}=== Antigravity Mobile Remote Health Check ===${c.reset}\n`);
 
     // 1. Node Version
     const versionMatch = process.version.match(/^v(\d+)\.(\d+)\./);

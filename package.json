@@ -1,28 +1,27 @@
 {
-    "name": "omni-antigravity-lite",
-    "version": "1.3.1",
+    "name": "antigravity-mobile-remote",
+    "version": "0.1.0",
     "type": "module",
-    "description": "Premium mobile remote control for Antigravity AI sessions via CDP mirroring — multi-window, chat history, real-time sync",
+    "description": "Mobile-first remote interface for Antigravity IDE.",
     "keywords": [
         "antigravity",
-        "windsurf",
-        "mobile",
         "remote",
-        "chat",
+        "mobile",
         "ai",
+        "coding",
         "cdp",
-        "chrome-devtools-protocol",
-        "ide",
-        "vscode"
+        "websocket",
+        "developer-tools"
     ],
-    "homepage": "https://github.com/diegosouzapw/OmniAntigravityRemoteChat",
+    "homepage": "https://github.com/kik1211/Antigravity-IDE-Mobile-Remote",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/diegosouzapw/OmniAntigravityRemoteChat.git"
+        "url": "git+https://github.com/kik1211/Antigravity-IDE-Mobile-Remote.git"
     },
     "bugs": {
-        "url": "https://github.com/diegosouzapw/OmniAntigravityRemoteChat/issues"
+        "url": "https://github.com/kik1211/Antigravity-IDE-Mobile-Remote/issues"
     },
+    "author": "Kiruthik R S",
     "bin": {
         "omni-chat": "./src/server.js"
     },
@@ -58,8 +57,8 @@
         "qrcode-terminal": "^0.12.0",
         "ws": "^8.18.0"
     },
-    "author": "Diego Souza <diegosouzapw@gmail.com> (https://github.com/diegosouzapw)",
     "contributors": [
+        "Diego Souza <diegosouzapw@gmail.com> (https://github.com/diegosouzapw)",
         "Krishna Kanth B (https://github.com/krishnakanthb13)"
     ],
     "license": "GPL-3.0-only",

@@ -41,7 +41,7 @@ function startServer() {
     }
 
     console.log('');
-    console.log(`▶ Starting OmniAntigravityLite server on port ${SERVER_PORT}...`);
+    console.log(`\n▶ Starting Antigravity Mobile Remote server on port ${SERVER_PORT}...`);
 
     const server = spawn(
         process.execPath,
@@ -75,7 +75,7 @@ async function ensureAntigravityCDP() {
 
     console.log('');
     console.log('✗ ERROR: Antigravity IDE CDP is not reachable.');
-    console.log('  Please use start.bat to launch OmniAntigravityLite.');
+    console.log('  Please use start.bat to launch Antigravity Mobile Remote.');
     console.log('');
     process.exit(1);
 }

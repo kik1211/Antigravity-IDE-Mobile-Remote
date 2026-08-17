@@ -6,8 +6,6 @@ Antigravity Mobile Remote provides a lightweight mobile interface for monitoring
 
 ## Screenshots
 
-*(Note: Screenshot files are needed in the `docs/images/` directory to display correctly.)*
-
 ![Mobile chat](docs/images/mobile-chat.png)  
 *Mobile main chat interface*
 
@@ -16,9 +14,6 @@ Antigravity Mobile Remote provides a lightweight mobile interface for monitoring
 
 ![Model running status](docs/images/model-status.png)  
 *Model-running status indicator*
-
-![Scroll controls](docs/images/scroll-controls.png)  
-*Scroll-to-Top / Scroll-to-Bottom controls*
 
 ## Demo
 

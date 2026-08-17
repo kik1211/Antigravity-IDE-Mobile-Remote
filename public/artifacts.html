@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents</title>
+    <!-- We do NOT use user-scalable=no, to allow Android zoom natively -->
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #f8f9fa;
+            --border-color: #dddddd;
+            --btn-bg: #ffffff;
+            --btn-hover: #f1f1f1;
+            --accent: #007bff;
+            --accent-hover: #0056b3;
+            --virtual-bg: #e3f2fd;
+            --virtual-border: #bbdefb;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1e1e1e;
+                --text-color: #e0e0e0;
+                --header-bg: #2d2d2d;
+                --border-color: #444444;
+                --btn-bg: #333333;
+                --btn-hover: #444444;
+                --accent: #3b82f6;
+                --accent-hover: #60a5fa;
+                --virtual-bg: #1a365d;
+                --virtual-border: #2a4365;
+            }
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Clean header sticking to top */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-center {
+            flex: 1;
+            text-align: center;
+            margin: 0 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        h1.title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Common buttons */
+        .btn {
+            appearance: none;
+            border: 1px solid var(--border-color);
+            background: var(--btn-bg);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover { background: var(--btn-hover); }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .btn-primary:hover { background: var(--accent-hover); }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* Zoom specific controls */
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--btn-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 2px;
+        }
+        
+        .zoom-btn {
+            border: none;
+            background: transparent;
+            color: var(--text-color);
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .zoom-btn:hover { background: var(--btn-hover); }
+        .zoom-label { font-size: 12px; padding: 0 4px; font-variant-numeric: tabular-nums; }
+
+        /* Views */
+        .view-container {
+            padding: 16px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* List Items */
+        .doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .doc-item {
+            padding: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.2s;
+        }
+
+        .doc-item:hover { border-color: var(--accent); }
+
+        .doc-item.virtual {
+            background-color: var(--virtual-bg);
+            border-color: var(--virtual-border);
+        }
+
+        .doc-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; word-break: break-all; }
+        .doc-meta { font-size: 13px; opacity: 0.8; }
+        
+        .empty-state { text-align: center; padding: 40px 20px; opacity: 0.6; }
+
+        /* Document Reading Area */
+        .doc-content {
+            font-size: 15px; /* Base size */
+            line-height: 1.6;
+            padding-bottom: 60px;
+            /* Allow internal horizontal scroll for code */
+            overflow-wrap: break-word;
+            transform-origin: top left;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* Markdown elements */
+        .doc-content pre {
+            background-color: rgba(0,0,0,0.05);
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto; /* IMPORTANT: horizontal scroll for long code */
+        }
+        @media (prefers-color-scheme: dark) {
+            .doc-content pre { background-color: rgba(255,255,255,0.05); }
+        }
+        .doc-content code {
+            font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9em;
+        }
+        .doc-content pre code { font-size: 1em; }
+        .doc-content img { max-width: 100%; height: auto; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        .doc-content th, .doc-content td { border: 1px solid var(--border-color); padding: 8px; }
+
+        /* Current Conversation specific cleanups */
+        .doc-content .chat-message,
+        .doc-content .message {
+            width: 100% !important;
+            max-width: none !important;
+            margin: 16px 0 !important;
+            padding: 0 !important;
+        }
+        
+        /* Strip Antigravity specific chrome/buttons from current conversation */
+        .doc-content [role="button"],
+        .doc-content button,
+        .doc-content .hidden,
+        .doc-content .hover-action,
+        .doc-content .actions,
+        .doc-content .controls {
+            display: none !important;
+        }
+
+        /* Clean borders/shadows from chat containers */
+        .doc-content .message-container,
+        .doc-content .chat-container {
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        /* Inject headings for Sender */
+        .doc-content .sender-user::before,
+        .doc-content .message-user::before {
+            content: '# User';
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-top: 24px;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+        }
+        
+        .doc-content .sender-agent::before,
+        .doc-content .sender-assistant::before,
+        .doc-content .message-agent::before {
+            content: '# Assistant';
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-top: 24px;
+            color: #10b981;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+        }
+
+    </style>
+    <!-- Local marked library for markdown parsing -->
+    <script src="/js/marked.min.js"></script>
+</head>
+<body>
+
+    <div class="header">
+        <button class="btn" id="navBackBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            Back
+        </button>
+        
+        <div class="header-center">
+            <h1 class="title" id="pageTitle">Documents</h1>
+        </div>
+
+        <div class="header-actions">
+            <!-- Zoom controls for document view -->
+            <div class="zoom-controls" id="zoomControls" style="display: none;">
+                <button class="zoom-btn" id="zoomOutBtn" aria-label="Zoom Out">−</button>
+                <span class="zoom-label" id="zoomLabel">100%</span>
+                <button class="zoom-btn" id="zoomInBtn" aria-label="Zoom In">+</button>
+            </div>
+            
+            <button class="btn btn-primary" id="copyBtn" style="display: none;">Copy</button>
+        </div>
+    </div>
+
+    <!-- List View -->
+    <div id="listView" class="view-container">
+        <div id="listContainer" class="doc-list">
+            <div class="empty-state">Loading documents...</div>
+        </div>
+    </div>
+
+    <!-- Document View -->
+    <div id="docView" class="view-container" style="display: none;">
+        <div id="docContent" class="doc-content"></div>
+    </div>
+
+    <script type="module" src="/js/artifacts-ui.js"></script>
+</body>
+</html>

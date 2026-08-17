@@ -1,0 +1,26 @@
+[
+  {
+    "id": "continue",
+    "label": "Continue",
+    "icon": "▶",
+    "prompt": "Continue"
+  },
+  {
+    "id": "commit",
+    "label": "Commit This",
+    "icon": "◆",
+    "prompt": "Please review the current changes and create a safe commit plan."
+  },
+  {
+    "id": "check-files",
+    "label": "Check Files",
+    "icon": "▣",
+    "prompt": "Please inspect the changed files and summarize the main risks before editing."
+  },
+  {
+    "id": "lint",
+    "label": "Run Lint",
+    "icon": "◌",
+    "prompt": "Please run the appropriate lint checks for this project and fix any issues you find."
+  }
+]

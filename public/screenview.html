@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Screen View - OmniAntigravityLite</title>
+  <style>
+    :root {
+      --bg-main: #1e1e24;
+      --bg-surface: #252830;
+      --bg-surface-elevated: #2a2d35;
+      --text-primary: #ffffff;
+      --text-secondary: #a0aabf;
+      --border-subtle: #333;
+      --accent: #8ab4f8;
+      --accent-hover: #aecbfb;
+      --danger: #f28b82;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 12px;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.1); }
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1;
+    }
+    .status-badge {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #888;
+    }
+    .status-dot.active { background: #4caf50; }
+    .status-dot.inactive { background: #888; }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .screen-container {
+      flex: 1;
+      background: #000;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    #screenImage {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    button.btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-danger {
+      background: var(--danger);
+      color: #000;
+    }
+    .btn-secondary {
+      background: var(--bg-surface-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="back-btn" onclick="window.history.back()" aria-label="Back">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <h1>Screen View</h1>
+    <div class="status-badge">
+      <div id="statusDot" class="status-dot inactive"></div>
+      <span id="statusText">Stopped</span>
+    </div>
+  </header>
+  
+  <main>
+    <div class="screen-container">
+      <img id="screenImage" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='black'/></svg>" alt="Antigravity Screen">
+    </div>
+    <div class="controls">
+      <button class="btn btn-secondary" id="btnRefresh">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+        Refresh
+      </button>
+      <button class="btn btn-primary" id="btnStart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        Start Live
+      </button>
+      <button class="btn btn-danger" id="btnStop" style="display: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12"></rect></svg>
+        Stop Live
+      </button>
+    </div>
+  </main>
+
+  <script>
+    const btnRefresh = document.getElementById('btnRefresh');
+    const btnStart = document.getElementById('btnStart');
+    const btnStop = document.getElementById('btnStop');
+    const screenImage = document.getElementById('screenImage');
+    const statusDot = document.getElementById('statusDot');
+    const statusText = document.getElementById('statusText');
+    
+    let ws = null;
+    
+    function updateStatus(active) {
+      if (active) {
+        statusDot.className = 'status-dot active';
+        statusText.textContent = 'Live';
+        btnStart.style.display = 'none';
+        btnStop.style.display = 'flex';
+      } else {
+        statusDot.className = 'status-dot inactive';
+        statusText.textContent = 'Stopped';
+        btnStart.style.display = 'flex';
+        btnStop.style.display = 'none';
+      }
+    }
+
+    async function checkStatus() {
+      try {
+        const res = await fetch('/api/screencast/status');
+        const data = await res.json();
+        updateStatus(data.active);
+      } catch (e) {
+        console.error('Failed to check status', e);
+      }
+    }
+
+    async function doRefresh() {
+      try {
+        const res = await fetch('/api/screencast/refresh', { method: 'POST' });
+        const data = await res.json();
+        if (data.data) {
+          screenImage.src = `data:image/jpeg;base64,${data.data}`;
+        } else if (data.error) {
+          console.error(data.error);
+        }
+      } catch (e) {
+        alert('Failed to refresh screenshot: ' + e);
+      }
+    }
+
+    async function doStart() {
+      try {
+        const res = await fetch('/api/screencast/start', { method: 'POST' });
+        const data = await res.json();
+        if (data.error) {
+          alert('Failed to start live view: ' + data.error);
+        } else {
+          updateStatus(data.active);
+        }
+      } catch (e) {
+        alert('Failed to start live view: ' + e);
+      }
+    }
+
+    async function doStop() {
+      try {
+        const res = await fetch('/api/screencast/stop', { method: 'POST' });
+        const data = await res.json();
+        updateStatus(data.active);
+      } catch (e) {
+        alert('Failed to stop live view: ' + e);
+      }
+    }
+
+    function initWebSocket() {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        ws = new WebSocket(`${protocol}//${window.location.host}`);
+        
+        ws.onmessage = (event) => {
+            try {
+                const msg = JSON.parse(event.data);
+                if (msg.type === 'screen_frame') {
+                    screenImage.src = `data:${msg.format || 'image/jpeg'};base64,${msg.data}`;
+                } else if (msg.type === 'screen_status') {
+                    updateStatus(msg.status.active);
+                }
+            } catch (err) {}
+        };
+        
+        ws.onclose = () => {
+            setTimeout(initWebSocket, 2000);
+        };
+    }
+
+    btnRefresh.addEventListener('click', doRefresh);
+    btnStart.addEventListener('click', doStart);
+    btnStop.addEventListener('click', doStop);
+    
+    // Cleanup on close
+    window.addEventListener('beforeunload', () => {
+      // Use sendBeacon for more reliable delivery during unload
+      navigator.sendBeacon('/api/screencast/stop');
+    });
+    
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        doStop();
+      }
+    });
+
+    initWebSocket();
+    checkStatus();
+    doRefresh(); // Initial frame
+  </script>
+</body>
+</html>

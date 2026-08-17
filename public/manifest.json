@@ -1,0 +1,25 @@
+{
+  "name": "OmniAntigravity Remote Chat",
+  "short_name": "OmniChat",
+  "description": "Remote mobile control for Antigravity sessions with workspace, Git and admin tools.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#101421",
+  "theme_color": "#1d9bf0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/app-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/app-icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

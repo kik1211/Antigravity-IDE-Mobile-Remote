@@ -1,0 +1,6 @@
+{
+  "antigravityPath": "C:\\Users\\YourUsername\\AppData\\Local\\Programs\\Antigravity\\Antigravity.exe",
+  "omniChatWslPath": "/home/your_username/OmniChat",
+  "omniChatCommand": "npx omni-antigravity-remote-chat"
+}
+

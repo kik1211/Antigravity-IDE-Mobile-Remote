@@ -6,14 +6,22 @@ Antigravity Mobile Remote provides a lightweight mobile interface for monitoring
 
 ## Screenshots
 
-![Mobile chat](docs/images/mobile-chat.png)  
-*Mobile main chat interface*
-
-![Documents](docs/images/documents.png)  
-*Documents / Current Conversation viewer*
-
-![Model running status](docs/images/model-status.png)  
-*Model-running status indicator*
+<table border="0" align="center">
+  <tr>
+    <td align="center">
+      <img src="docs/images/mobile-chat.png" width="250" />
+      <br><em>Mobile main chat interface</em>
+    </td>
+    <td align="center">
+      <img src="docs/images/documents.png" width="250" />
+      <br><em>Documents / Current Conversation viewer</em>
+    </td>
+    <td align="center">
+      <img src="docs/images/model-status.png" width="250" />
+      <br><em>Model-running status indicator</em>
+    </td>
+  </tr>
+</table>
 
 ## Demo
 

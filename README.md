@@ -23,10 +23,6 @@ Antigravity Mobile Remote provides a lightweight mobile interface for monitoring
   </tr>
 </table>
 
-## Demo
-
-Demo media will be added in a future release.
-
 ## Installation & Startup
 
 1. **Clone the repository:**

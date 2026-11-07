@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Node.js ${{ matrix.node-version }} Validation
+    runs-on: ubuntu-24.04
+
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+        run: npm ci
+
+      - name: Validate JavaScript Syntax
+        run: |
+          echo "Checking syntax of all tracked JavaScript files..."
+          git ls-files -z '*.js' '*.cjs' '*.mjs' | xargs -0 -n 1 node --check
+          echo "All tracked JavaScript files passed syntax check."
+
+      - name: Run Unit Tests
+        run: npm run test:unit

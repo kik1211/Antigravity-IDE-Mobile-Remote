@@ -54,9 +54,9 @@ describe('config module', () => {
     expect(SERVER_PORT).toBe('5151');
   });
 
-  it('falls back to the default app password', async () => {
+  it('falls back to a generated random hexadecimal app password', async () => {
     const { APP_PASSWORD } = await loadConfig();
-    expect(APP_PASSWORD).toBe('antigravity');
+    expect(APP_PASSWORD).toMatch(/^[0-9a-f]{32}$/);
   });
 
   it('reads the workspace root override from the environment', async () => {

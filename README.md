@@ -1,5 +1,7 @@
 # Antigravity Mobile Remote
 
+[![CI](https://github.com/kik1211/Antigravity-IDE-Mobile-Remote/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/kik1211/Antigravity-IDE-Mobile-Remote/actions/workflows/ci.yml)
+
 Access and interact with your active Antigravity IDE coding session from your phone.
 
 Antigravity Mobile Remote provides a lightweight mobile interface for monitoring and interacting with the active Antigravity session. It allows you to securely connect your phone to an active desktop Antigravity session via CDP (Chrome DevTools Protocol), giving you full control over the conversation, prompting, and project context from your mobile device.
